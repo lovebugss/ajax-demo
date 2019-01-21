@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<link rel="shortcut icon" type="image/png" href="jasmine/lib/jasmine-3.3.0/jasmine_favicon.png">
+<link rel="stylesheet" type="text/css" href="jasmine/lib/jasmine-3.3.0/jasmine.css">
+
+<script type="text/javascript" src="jasmine/lib/jasmine-3.3.0/jasmine.js"></script>
+<script type="text/javascript" src="jasmine/lib/jasmine-3.3.0/jasmine-html.js"></script>
+<script type="text/javascript" src="jasmine/lib/jasmine-3.3.0/boot.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<body>
+
+
+</body>
+<script>
+    var baseUrl = "http://localhost:8080/";
+
+    describe("ajax  跨域", function () {
+        var result;
+        it("get", function (done) {
+            $.ajax({
+                type: "get",
+                url: baseUrl + "get1",
+                success: function (data) {
+                    result = data;
+                }
+            })
+            setTimeout(function () {
+                expect(result).toEqual({"message": "hello json"});
+                done();
+            }, 100);
+        });
+        it("post", function (done) {
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                data: JSON.stringify({username:"zhangsan"}),
+                contentType:"application/json",
+                url: baseUrl + "post",
+                success: function (data) {
+                    result = data;
+                }
+            })
+            setTimeout(function () {
+                expect(result).toEqual({"message": "hello zhangsan"});
+                done();
+            }, 100);
+        });
+        it("cookie", function (done) {
+            $.ajax({
+                type: "get",
+                url: baseUrl + "getCookie",
+                xhrFields:{
+                    withCredentials:true
+                },
+                success: function (data) {
+                    result = data;
+                }
+            })
+            setTimeout(function () {
+                expect(result).toEqual({"message": "hello cookie"});
+                done();
+            }, 100);
+        });
+
+    });
+
+
+
+</script>
+</html>
